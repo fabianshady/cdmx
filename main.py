@@ -51,7 +51,8 @@ for bed, persons in bed_assignments.items():
 # set up the email parameters
 sender_email = 'fabianmendoza.py@gmail.com'
 sender_password = os.environ.get("GMAIL_KEY")
-receiver_email = os.environ.get("EMAILS")
+receiver_email_json = os.environ.get("EMAILS")
+receiver_email = json.loads(receiver_email_json)
 subject = 'Sorteo de camas'
 
 # create the email message
