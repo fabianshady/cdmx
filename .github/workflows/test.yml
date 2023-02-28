@@ -16,5 +16,5 @@ jobs:
       - name: Run Script
         run: python main.py
         env:
-          PERSONS: ${{ secrets.PERSONS }}
+          PERSONS_LIST: ${{ secrets.PERSONS_LIST }}
           EMAILS: ${{ secrets.EMAILS }}
