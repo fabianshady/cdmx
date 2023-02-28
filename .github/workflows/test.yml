@@ -18,3 +18,4 @@ jobs:
         env:
           PERSONS_LIST: ${{ secrets.PERSONS_LIST }}
           EMAILS: ${{ secrets.EMAILS }}
+          GMAIL_KEY: ${{ secrets.GMAIL_KEY }}
