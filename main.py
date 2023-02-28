@@ -1,13 +1,14 @@
 import os
 import random
 import smtplib
+import json
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 double_beds = ['Double Bed bedroom 1', 'Double Bed bedroom 2', 'Double Bed living room']
 single_beds = ['Single Bed 1', 'Single Bed 2']
-persons = os.environ.get("PERSONS")
-
+persons_json = os.environ.get("PERSONS_LIST")
+persons = json.loads(persons_json)
 bed_assignments = {}
 
 # assign Katherynne and Chuy to the same bed
