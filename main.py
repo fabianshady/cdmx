@@ -3,7 +3,6 @@ import random
 import smtplib
 import json
 from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 
 double_beds = ['Double Bed bedroom 1', 'Double Bed bedroom 2', 'Double Bed living room']
 single_beds = ['Single Bed 1', 'Single Bed 2']
@@ -48,25 +47,22 @@ for bed, persons in bed_assignments.items():
     print(bed, ':', ', '.join(persons))
     body += f'{bed}={persons}\n'
 
+# connect to the SMTP server and send the email
+def send_email(subject, body, sender, recipients, password):
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = ', '.join(recipients)
+    smtp_server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    smtp_server.login(sender, password)
+    smtp_server.sendmail(sender, recipients, msg.as_string())
+    smtp_server.quit()
+
 # set up the email parameters
-sender_email = 'fabianmendoza.py@gmail.com'
-sender_password = os.environ.get("GMAIL_KEY")
+sender = 'fabianmendoza.py@gmail.com'
+password = os.environ.get("GMAIL_KEY")
 receiver_email_json = os.environ.get("EMAILS")
-receiver_email = json.loads(receiver_email_json)
+recipients = json.loads(receiver_email_json)
 subject = 'Sorteo de camas'
 
-# create the email message
-message = MIMEMultipart()
-message['From'] = sender_email
-message['To'] = receiver_email
-message['Subject'] = subject
-message.attach(MIMEText(body, 'plain'))
-
-# connect to the SMTP server and send the email
-with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
-    smtp.ehlo()
-    smtp.starttls()
-    smtp.ehlo()
-    smtp.login(sender_email, sender_password)
-    smtp.sendmail(sender_email, receiver_email, message.as_string())
-    print('Email sent successfully')
+send_email(subject, body, sender, recipients, password)
